@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.18;
+pragma solidity 0.8.18; // @audit-q: is this the correct compiler version?
 
 /*
  * @author not-so-secure-dev
@@ -11,6 +11,7 @@ contract PasswordStore {
     error PasswordStore__NotOwner();
 
     address private s_owner;
+    // @audit-high: s_password variable is not actually private, this is not a safe place to store a private password. 
     string private s_password;
 
     event SetNetPassword();
@@ -23,6 +24,7 @@ contract PasswordStore {
      * @notice This function allows only the owner to set a new password.
      * @param newPassword The new password to set.
      */
+    // @audit-high: this does not have a condition to only accept owner calls 
     function setPassword(string memory newPassword) external {
         s_password = newPassword;
         emit SetNetPassword();
@@ -30,6 +32,7 @@ contract PasswordStore {
 
     /*
      * @notice This allows only the owner to retrieve the password.
+     @audit: there is no newPassword parameter
      * @param newPassword The new password to set.
      */
     function getPassword() external view returns (string memory) {
