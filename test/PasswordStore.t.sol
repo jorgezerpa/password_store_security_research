@@ -24,11 +24,15 @@ contract PasswordStoreTest is Test {
         assertEq(actualPassword, expectedPassword);
     }
 
-    function test_non_owner_can_not_set_password() public {
-        vm.startPrank(address(1));
-        string memory expectedPassword = "myNewPassword";
-        vm.expectRevert();
+    function test_anyone_can_set_password(address randomAddress, uint256 newPasswordModifier) public {
+        vm.assume(randomAddress!=owner);
+        vm.prank(randomAddress);
+        string memory expectedPassword = string(abi.encodePacked("myNewPassword", newPasswordModifier));
         passwordStore.setPassword(expectedPassword);
+
+        vm.prank(owner);
+        string memory actualPassword = passwordStore.getPassword();
+        assertEq(actualPassword, expectedPassword);
     }
 
     function test_non_owner_reading_password_reverts() public {

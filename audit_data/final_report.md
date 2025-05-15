@@ -1,3 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    .full-page {
+        width:  100%;
+        height:  100vh; /* This will make the div take up the full viewport height */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .full-page img {
+        max-width:  200;
+        max-height:  200;
+        margin-bottom: 5rem;
+    }
+    .full-page div{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+</head>
+<body>
+
+<div class="full-page">
+    <img src="./image.png" alt="Logo">
+    <div>
+    <h1>Protocol Audit Report</h1>
+    <h3>Prepared by: Jorge Zerpa</h3>
+    </div>
+</div>
+
+</body>
+</html>
+
+<!-- Your report starts here! -->
+
+# Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Protocol Summary](#protocol-summary)
+- [Disclaimer](#disclaimer)
+- [Risk Classification](#risk-classification)
+- [Audit Details](#audit-details)
+  - [Scope](#scope)
+  - [Roles](#roles)
+- [Executive Summary](#executive-summary)
+  - [Issues found](#issues-found)
+- [Findings](#findings)
+- [High](#high)
+- [Medium](#medium)
+- [Low](#low)
+- [Informational](#informational)
+- [Gas](#gas)
+
+# Protocol Summary
+
+A smart contract application for storing a password. Users should be able to store a password and then retrieve it later. Others should not be able to access the password.
+
+# Disclaimer
+
+The Jorge Zerpa's team makes all effort to find as many vulnerabilities in the code in the given time period, but holds no responsibilities for the findings provided in this document. A security audit by the team is not an endorsement of the underlying business or product. The audit was time-boxed and the review of the code was solely on the security aspects of the Solidity implementation of the contracts.
+
+# Risk Classification
+
+|            |        | Impact |        |     |
+| ---------- | ------ | ------ | ------ | --- |
+|            |        | High   | Medium | Low |
+|            | High   | H      | H/M    | M   |
+| Likelihood | Medium | H/M    | M      | M/L |
+|            | Low    | M      | M/L    | L   |
+
+We use the [CodeHawks](https://docs.codehawks.com/hawks-auditors/how-to-evaluate-a-finding-severity) severity matrix to determine severity. See the documentation for more details.
+
+# Audit Details 
+We performed a manual research on the code base looking for any possible error on the written code and any logic implementation error by comparing what the code is doing vs what the program is supposed to do (AKA what is on the provided documentation).
+
+## Scope 
+- `src/PasswordStore.sol`
+
+## Roles
+- `owner`
+- `non-owner`
+
+## Issues found
+# Findings
+# High
 ### [H-1] Storing the password on-chain makes it visible to anyone and no longer private.
 
 **Description:** All data stored on-chain is visible to anyone, and can be read directly from the blockchain. The `PasswordStore::s_password` variable is intended to be a private variable and only accessed through the `PasswordStore::getPassword` function, which is intended to be only called by the owner of the contract. 
@@ -79,3 +168,15 @@ if(msg.sender != s_owner) {
     revert PasswordStore__NotOwner();
 }
 ```
+
+# Medium
+`none`
+
+# Low 
+`none`
+
+# Informational
+`none`
+
+# Gas 
+`none`
